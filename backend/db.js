@@ -1,13 +1,5 @@
 const { Pool } = require("pg");
 
-// Create a table named calculated_values if it doesn't already exist
-// pool.query(
-//   "CREATE TABLE IF NOT EXISTS calculated_values (id SERIAL PRIMARY KEY, value INTEGER)",
-// );
-//
-// // Insert a value into the calculated_values table
-// pool.query("INSERT INTO calculated_values (value) VALUES ($1)", [50]);
-
 function connectToDataBase(callback) {
   var pool = new Pool({
     user: "postgres",
@@ -39,5 +31,9 @@ function checkConnectionStatus(pool, callback) {
 }
 
 connectToDataBase((pool) => {
+  // Create a table named calculated_values if it doesn't already exist
+  pool.query(
+    "CREATE TABLE IF NOT EXISTS calculated_values (id SERIAL PRIMARY KEY, value INTEGER)",
+  );
   module.exports = pool;
 });
