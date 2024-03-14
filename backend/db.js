@@ -15,11 +15,12 @@ function connectToDataBase(callback) {
 function checkConnectionStatus(pool, callback) {
   // Attempt to connect to the database
   pool.connect((err, _client, release) => {
-    if (err.code == "3D000") {
-      pool.end(); // Close the pool to release resources
-      throw "Database does not exists. Create manually for now or check the database string name.";
-      //--TODO: Create database automatically if it does not exists. Write a some sort of shell script?
-    } else if (err) {
+    if (err) {
+      if (err.code && err.code == "3D000") {
+        throw "Database does not exists. Create manually for now or check the database string name.";
+        //--TODO: Create database automatically if it does not exists. Write a some sort of shell script?
+      }
+
       console.error("Error connecting to the database:", err);
       pool.end(); // Close the pool to release resources
     } else {
