@@ -1,8 +1,9 @@
-const pool = require("./db");
+const poolInstance = require("./db");
 
-export function GetAllValues() {
+
+function GetAllValues() {
   return new Promise((resolve, reject) => {
-    pool.query("SELECT * FROM calculated_values", (err, result) => {
+    poolInstance.query("SELECT * FROM calculated_values", (err, result) => {
       if (err) {
         reject(err);
       } else {
@@ -12,9 +13,9 @@ export function GetAllValues() {
   });
 }
 
-export function GetValue(key) {
+function GetValue(key) {
   return new Promise((resolve, reject) => {
-    pool.query(
+    poolInstance.query(
       "SELECT * FROM calculated_values WHERE value=($1)",
       [key],
       (err, result) => {
@@ -28,19 +29,13 @@ export function GetValue(key) {
   });
 }
 
-export function SetValue(key) {
-  return new Promise((resolve, reject) => {
-    // Insert a value into the calculated_values table
-    pool.query(
-      "INSERT INTO calculated_values (value) VALUES ($1)",
-      [key],
-      (err, result) => {
-        if (err) {
-          reject(err);
-        } else {
-          resolve("Value inserted successfully!", result);
-        }
-      },
-    );
-  });
+async function SetValue(key) {
+  try {
+    const result = await poolInstance.query('INSERT INTO calculated_values (value) VALUES ($1)',[key]);
+    return result;
+  } catch (error) {
+    throw error
+  }
 }
+
+module.exports = { SetValue, GetValue, GetAllValues };

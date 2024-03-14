@@ -1,14 +1,17 @@
 const { Pool } = require("pg");
 
-function connectToDataBase(callback) {
-  var pool = new Pool({
-    user: "postgres",
-    host: "localhost",
-    database: "calculated_values", // Replace with your database name
-    password: "admin", // Empty password for default PostgreSQL setup
-    port: 5432,
-  });
 
+const MyPool = new Pool({
+  user: "postgres",
+  host: "localhost",
+  database: "calculated_values", // Replace with your database name
+  password: "admin", // Empty password for default PostgreSQL setup
+  port: 5432,
+});
+
+
+function connectToDataBase(callback) {
+  var pool = MyPool;
   checkConnectionStatus(pool, callback);
 }
 
@@ -31,10 +34,12 @@ function checkConnectionStatus(pool, callback) {
   });
 }
 
-connectToDataBase((pool) => {
+
+connectToDataBase(async (pool) => {
   // Create a table named calculated_values if it doesn't already exist
-  pool.query(
+  await pool.query(
     "CREATE TABLE IF NOT EXISTS calculated_values (id SERIAL PRIMARY KEY, value INTEGER)",
   );
-  module.exports = pool;
 });
+
+module.exports = MyPool
