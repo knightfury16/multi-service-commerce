@@ -1,35 +1,101 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
+// App.js
+import React, { useState, useEffect, SyntheticEvent } from 'react';
+import axios from 'axios';
 import './App.css'
 
+type index = {
+  id: number,
+  value: number
+}
+
+type indexToValueMap = {
+  [key : number] : string
+}
+
 function App() {
-  const [count, setCount] = useState(0)
+  const [inputValue, setInputValue] = useState('');
+  const [submittedIndexes, setSubmittedIndexes] = useState<index[]>([]);
+  const [calculatedValues, setCalculatedValues] = useState<indexToValueMap>([]);
+
+  // Function to fetch submitted indexes from the backend
+  const fetchSubmittedIndexes = async () => {
+    try {
+      const response = await axios.get('http://localhost:3000/getValues');
+      console.log("Resposne for index value",response.data.result)
+      setSubmittedIndexes(response.data?.result);
+    } catch (error) {
+      console.error('Error fetching submitted indexes:', error);
+    }
+  };
+
+  // Function to fetch calculated values from the backend
+  const fetchCalculatedValues = async () => {
+    try {
+      const response = await axios.get('http://localhost:3000/getValues/redis');
+      console.log("Response for redis values ", response.data.values);
+      setCalculatedValues(response.data?.values);
+    } catch (error) {
+      console.error('Error fetching calculated values:', error);
+    }
+  };
+
+  // useEffect hook to fetch data when the component mounts
+  useEffect(() => {
+    fetchSubmittedIndexes();
+    fetchCalculatedValues();
+  }, []);
+
+  // Function to handle form submission
+  const handleSubmit = async (e:SyntheticEvent) => {
+    e.preventDefault();
+    try {
+      await axios.post('http://localhost:3000/setValue', { value: inputValue });
+      // After submitting, fetch updated data
+      fetchSubmittedIndexes();
+      fetchCalculatedValues();
+      setInputValue('');
+    } catch (error) {
+      console.error('Error submitting value:', error);
+    }
+  };
 
   return (
     <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
+    <div>
+      <h1>Fibonacci Calculator</h1>
+      <div className='card'>
+      <form onSubmit={handleSubmit}>
+        <input
+          type="text"
+          value={inputValue}
+          onChange={(e) => setInputValue(e.target.value)}
+          placeholder="Enter a number"
+        />
+        <button type="submit">Calculate</button>
+      </form>
+
+
       </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
+      
+      <h2>Previously Submitted Indexes</h2>
+      <ul>
+        {submittedIndexes.map((index) => (
+          <li key={index.id}>{index.value}</li>
+        ))}
+      </ul>
+
+      <h2>Calculated Values</h2>
+      <ul>
+      {Object.entries(calculatedValues).map(([index, value]) => (
+        <li key={index}>
+          Index: {index}, Value: {value}
+        </li>
+      ))}
+    </ul>
+    </div>
     </>
-  )
+    
+  );
 }
 
-export default App
+export default App;
