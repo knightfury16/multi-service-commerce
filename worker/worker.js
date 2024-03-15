@@ -1,11 +1,8 @@
 import  redisClient  from "./redisClient.js";
+import subscriber from "./subscriber.js"
 
 (async () => {
 
-  const subscriber = redisClient.duplicate();
-  subscriber.on('error', err => console.error(err));
-  await subscriber.connect();
-  
   const listener = async (message, channel) => {
     console.log(`Calculating Fibonacci value of ${message}`);
     const fiboValue = FibonacchiCalculator(parseInt(message));
