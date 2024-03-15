@@ -37,7 +37,16 @@ services:
       - type: bind
         source: ./backend
         target: /app
-  
+  react-app:
+    build: 
+      context: ./frontend
+      dockerfile: Dockerfile.dev
+    ports:
+      - 5000:5173
+    volumes:
+      - /app/node_modules
+      - ./frontend:/app
+        
 volumes:
   pg_data:
   redis_data:
