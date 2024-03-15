@@ -1,0 +1,43 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres
+    container_name: postgres
+    environment:
+      - POSTGRES_PASSWORD=admin
+    volumes:
+      - pg_data:/var/lib/postgresql/data
+    # Do i need to expose the ports or they build comunication by themself?
+    #need it to create database manually
+    ports:
+      - 5432:5432
+  redis:
+    image: redis
+    volumes:
+      - redis_data:/data
+  worker:
+    build: 
+      context: ./worker
+      dockerfile: Dockerfile.dev
+    volumes:
+      - /app/node_modules
+      - type: bind
+        source: ./worker
+        target: /app
+  node-app:
+    build: 
+      context: ./backend
+      dockerfile: Dockerfile.dev
+    restart: always
+    ports:
+      - 3000:3000
+    volumes:
+      - /app/node_modules
+      - type: bind
+        source: ./backend
+        target: /app
+  
+volumes:
+  pg_data:
+  redis_data:

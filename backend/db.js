@@ -3,7 +3,7 @@ const { Pool } = require("pg");
 
 const MyPool = new Pool({
   user: "postgres",
-  host: "localhost",
+  host: "postgres",
   database: "calculated_values", // Replace with your database name
   password: "admin", // Empty password for default PostgreSQL setup
   port: 5432,
