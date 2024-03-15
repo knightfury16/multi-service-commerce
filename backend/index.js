@@ -29,6 +29,7 @@ app.post("/setValue", async (req, res) => {
     if (!value) {
       return res.status(400).json({ error: "Value is required" });
     }
+    if( value > 40) return res.status(422).send("Index value to high!!")
     const result = await SetValue(value);
     
     await publisher.publish("calculate-fib", value.toString());
