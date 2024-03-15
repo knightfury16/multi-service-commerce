@@ -4,6 +4,7 @@ import subscriber from "./subscriber.js"
 (async () => {
 
   const listener = async (message, channel) => {
+    console.log("Got a message.")
     console.log(`Calculating Fibonacci value of ${message}`);
     const fiboValue = FibonacchiCalculator(parseInt(message));
     console.log(`Fibonacci value calculated: ${fiboValue}`);

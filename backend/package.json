@@ -9,6 +9,7 @@
     "dev": "nodemon index.js"
   },
   "keywords": [],
+  "type": "commonjs",
   "author": "",
   "license": "ISC",
   "dependencies": {

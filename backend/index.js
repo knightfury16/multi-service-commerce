@@ -1,5 +1,7 @@
 const express = require("express");
 const { SetValue, GetAllValues, GetValue } = require("./repository");
+const {redisClient} = require("./redisClient.js")
+const {publisher} = require("./publisher.js")
 
 const app = express();
 
@@ -28,6 +30,9 @@ app.post("/setValue", async (req, res) => {
       return res.status(400).json({ error: "Value is required" });
     }
     const result = await SetValue(value);
+    
+    await publisher.publish("calculate-fib", value.toString());
+
     res.status(201).send("Value Created Successfully!");
   } catch (error) {
     console.error("Error inserting value:", error);
@@ -48,6 +53,17 @@ app.get("/getValue", async (req, res) => {
     res.status(500).send("Error retrieving value from database");
   }
 });
+
+
+app.get("/getValues/redis", async (req,res) => {
+  try {
+    const values = await redisClient.HGETALL("values")
+    res.status(200).json({values});
+  } catch (error) {
+    console.log("Error retriving values", error)
+  }
+})
+
 
 app.listen(3000, () => {
   console.log("Server started at port 3000");
