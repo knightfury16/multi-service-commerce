@@ -2,11 +2,13 @@ const express = require("express");
 const { SetValue, GetAllValues, GetValue } = require("./repository");
 const {redisClient} = require("./redisClient.js")
 const {publisher} = require("./publisher.js")
+const cors = require("cors")
 
 const app = express();
 
 // Parse JSON bodies
 app.use(express.json());
+app.use(cors());
 
 app.get("/", (req, res) => {
   res.send("Hello world");
