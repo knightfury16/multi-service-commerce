@@ -20,7 +20,7 @@ function App() {
   // Function to fetch submitted indexes from the backend
   const fetchSubmittedIndexes = async () => {
     try {
-      const response = await axios.get('http://localhost:3000/getValues');
+      const response = await axios.get('api/getValues');
       console.log("Resposne for index value",response.data.result)
       setSubmittedIndexes(response.data?.result);
     } catch (error) {
@@ -31,7 +31,7 @@ function App() {
   // Function to fetch calculated values from the backend
   const fetchCalculatedValues = async () => {
     try {
-      const response = await axios.get('http://localhost:3000/getValues/redis');
+      const response = await axios.get('api/getValues/redis');
       console.log("Response for redis values ", response.data.values);
       setCalculatedValues(response.data?.values);
     } catch (error) {
@@ -49,7 +49,7 @@ function App() {
   const handleSubmit = async (e:SyntheticEvent) => {
     e.preventDefault();
     try {
-      await axios.post('http://localhost:3000/setValue', { value: inputValue });
+      await axios.post('api/setValue', { value: inputValue });
       // After submitting, fetch updated data
       fetchSubmittedIndexes();
       fetchCalculatedValues();
