@@ -1,12 +1,13 @@
 const { Pool } = require("pg");
+const { pgUser, pgHost, pgDatabase, pgPassword, pgPort } = require("./keys.js");
 
 
 const MyPool = new Pool({
-  user: "postgres",
-  host: "postgres",
-  database: "calculated_values", // Replace with your database name
-  password: "admin", // Empty password for default PostgreSQL setup
-  port: 5432,
+  user: pgUser,
+  host: pgHost,
+  database: pgDatabase, // Replace with your database name
+  password: pgPassword, // Empty password for default PostgreSQL setup
+  port: pgPort,
 });
 
 

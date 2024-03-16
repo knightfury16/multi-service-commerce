@@ -1,9 +1,10 @@
-const {createClient} = require("redis")
+const {createClient} = require("redis");
+const { redisHost, redisPort } = require("./keys.js");
 
 const redisClient = createClient({
   socket: {
-    host: "redis",
-    port: 6379,
+    host: redisHost,
+    port: redisPort,
     reconnectStrategy: () => 1000
   }
 });

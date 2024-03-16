@@ -1,9 +1,10 @@
 import { createClient } from "redis";
+import {redisHost,redisPort} from "./keys.js"
 
 const redisClient = createClient({
   socket: {
-    host: "redis",
-    port: 6379,
+    host: redisHost,
+    port: redisPort,
     reconnectStrategy: () => 1000
   }
 });
