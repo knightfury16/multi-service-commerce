@@ -1,5 +1,5 @@
 // App.js
-import React, { useState, useEffect, SyntheticEvent } from 'react';
+import { useState, useEffect, SyntheticEvent } from 'react';
 import axios from 'axios';
 import './App.css'
 
