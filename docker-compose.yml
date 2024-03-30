@@ -1,4 +1,4 @@
-version: '3.8'
+version: "3.8"
 
 services:
   postgres:
@@ -14,17 +14,17 @@ services:
     #   - 5432:5432
   redis:
     image: redis
-    volumes:
-      - redis_data:/data
+    # volumes:
+    #   - redis_data:/data
   nginx:
-    build: 
+    build:
       context: ./nginx
       dockerfile: Dockerfile.dev
     restart: always
     ports:
       - 4000:80
   worker:
-    build: 
+    build:
       context: ./worker
       dockerfile: Dockerfile.dev
     volumes:
@@ -36,7 +36,7 @@ services:
       - REDIS_HOST=redis
       - REDIS_PORT=6379
   node-app:
-    build: 
+    build:
       context: ./backend
       dockerfile: Dockerfile.dev
     restart: always
@@ -47,7 +47,7 @@ services:
       - REDIS_PORT=6379
       - PG_USER=postgres
       - PG_HOST=postgres
-      - PG_DATABASE=calculated_values
+      - PG_DATABASE=postgres
       - PG_PASSWORD=admin
       - PG_PORT=5432
     volumes:
@@ -56,7 +56,7 @@ services:
         source: ./backend
         target: /app
   react-app:
-    build: 
+    build:
       context: ./frontend
       dockerfile: Dockerfile.dev
     # ports:
