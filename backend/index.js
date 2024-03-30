@@ -1,8 +1,8 @@
 const express = require("express");
 const { SetValue, GetAllValues, GetValue } = require("./repository");
-const {redisClient} = require("./redisClient.js")
-const {publisher} = require("./publisher.js")
-const cors = require("cors")
+const { redisClient } = require("./redisClient.js");
+const { publisher } = require("./publisher.js");
+const cors = require("cors");
 
 const app = express();
 
@@ -31,9 +31,9 @@ app.post("/setValue", async (req, res) => {
     if (!value) {
       return res.status(400).json({ error: "Value is required" });
     }
-    if( value > 40) return res.status(422).send("Index value to high!!")
+    // if( value > 40) return res.status(422).send("Index value to high!!")
     const result = await SetValue(value);
-    
+
     await publisher.publish("calculate-fib", value.toString());
 
     res.status(201).send("Value Created Successfully!");
@@ -57,16 +57,14 @@ app.get("/getValue", async (req, res) => {
   }
 });
 
-
-app.get("/getValues/redis", async (req,res) => {
+app.get("/getValues/redis", async (req, res) => {
   try {
-    const values = await redisClient.HGETALL("values")
-    res.status(200).json({values});
+    const values = await redisClient.HGETALL("values");
+    res.status(200).json({ values });
   } catch (error) {
-    console.log("Error retriving values", error)
+    console.log("Error retriving values", error);
   }
-})
-
+});
 
 app.listen(3000, () => {
   console.log("Server started at port 3000");
