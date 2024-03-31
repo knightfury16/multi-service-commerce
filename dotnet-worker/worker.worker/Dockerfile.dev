@@ -1,0 +1,17 @@
+# Use the official .NET Core SDK image
+FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build-env
+
+# Set the working directory in the container
+WORKDIR /app
+
+# Copy the project files and restore dependencies
+COPY *.csproj ./
+RUN dotnet restore
+
+# Copy the remaining files and build the project
+COPY . ./
+
+
+CMD ["dotnet","run"]
+
+
