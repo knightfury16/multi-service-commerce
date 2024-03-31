@@ -2,6 +2,8 @@ const express = require("express");
 const { SetValue, GetAllValues, GetValue } = require("./repository");
 const { redisClient } = require("./redisClient.js");
 const { publisher } = require("./publisher.js");
+const { publishMessage } = require("./rabbitmqPublisher.js");
+const morgan = require("morgan");
 const cors = require("cors");
 
 const app = express();
@@ -9,6 +11,7 @@ const app = express();
 // Parse JSON bodies
 app.use(express.json());
 app.use(cors());
+app.use(morgan("dev"));
 
 app.get("/", (req, res) => {
   res.send("Hello world");
@@ -33,7 +36,7 @@ app.post("/setValue", async (req, res) => {
     }
     // if( value > 40) return res.status(422).send("Index value to high!!")
     const result = await SetValue(value);
-
+    await publishMessage(value.toString(), "calculate-fib");
     await publisher.publish("calculate-fib", value.toString());
 
     res.status(201).send("Value Created Successfully!");
