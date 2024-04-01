@@ -51,19 +51,11 @@ namespace worker.worker
         private string GetRedisConnectionString()
         {
             string redisConfig;
-            // Get Redis configuration string from environment variable
-            string? redisHost = Environment.GetEnvironmentVariable("REDIS_HOST");
-            string? redisPort = Environment.GetEnvironmentVariable("REDIS_PORT");
 
-            // Use default value if not found in environment
-            if (string.IsNullOrEmpty(redisHost) || string.IsNullOrEmpty(redisPort))
-            {
-                redisConfig = "redis:6379"; // Default Redis configuration
-            }
-            else
-            {
-                redisConfig = redisHost + ":" + redisPort;
-            }
+            // Get Redis configuration string from environment variable
+            string? redisHost = Environment.GetEnvironmentVariable("REDIS_HOST") ?? "redis";
+            string? redisPort = Environment.GetEnvironmentVariable("REDIS_PORT") ?? "6379";
+            redisConfig = redisHost + ":" + redisPort;
 
             return redisConfig;
         }
