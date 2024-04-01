@@ -38,7 +38,7 @@ namespace worker.worker
         {
             Console.WriteLine($"Saving to redis of key {key} and {value}");
             var db = _lazyConnection.Value.GetDatabase();
-            db.StringSet(key, value);
+            db.HashSet("values", key , value);
         }
 
         public string GetFromRedis(string key)

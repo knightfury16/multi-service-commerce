@@ -11,7 +11,11 @@ RUN dotnet restore
 # Copy the remaining files and build the project
 COPY . ./
 
+# Build the project
+RUN dotnet publish -c Release -o out
 
-CMD ["dotnet","run"]
+WORKDIR /app/out
+
+CMD ["dotnet","worker.worker.dll"]
 
 

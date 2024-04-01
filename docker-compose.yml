@@ -1,4 +1,4 @@
-version: "3.8"
+version: "3"
 
 services:
   postgres:
@@ -14,8 +14,8 @@ services:
     #   - 5432:5432
   redis:
     image: redis
-    # volumes:
-    #   - redis_data:/data
+    volumes:
+      - redis_data:/data
   nginx:
     build:
       context: ./nginx
@@ -23,23 +23,32 @@ services:
     restart: always
     ports:
       - 4000:80
+  rabbitmq:
+    image: rabbitmq
+    environment:
+      RABBITMQ_DEFAULT_USER: admin
+      RABBITMQ_DEFAULT_PASS: admin
   worker:
+    restart: on-failure
     build:
-      context: ./worker
+      context: ./dotnet-worker/worker.worker
       dockerfile: Dockerfile.dev
-    volumes:
-      - /app/node_modules
-      - type: bind
-        source: ./worker
-        target: /app
+    # volumes:
+    # - /app/node_modules
+    # - type: bind
+    # source: ./worker
+    # target: /app
     environment:
       - REDIS_HOST=redis
       - REDIS_PORT=6379
+    depends_on:
+      - rabbitmq
+      - redis
   node-app:
     build:
       context: ./backend
       dockerfile: Dockerfile.dev
-    restart: always
+    restart: on-failure
     # ports:
     #   - 3000:3000
     environment:
@@ -50,11 +59,15 @@ services:
       - PG_DATABASE=postgres
       - PG_PASSWORD=admin
       - PG_PORT=5432
-    volumes:
-      - /app/node_modules
-      - type: bind
-        source: ./backend
-        target: /app
+      - AMQP_HOST=rabbitmq
+    depends_on:
+      - rabbitmq
+      - redis
+    # volumes:
+    # - /app/node_modules
+    # - type: bind
+    #   source: ./backend
+    #   target: /app
   react-app:
     build:
       context: ./frontend

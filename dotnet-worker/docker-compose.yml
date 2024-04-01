@@ -1,7 +1,6 @@
-version: '3.9'
+version: "3.9"
 
 services:
-
   rabbitmq:
     image: rabbitmq:3-management
     environment:
@@ -15,6 +14,7 @@ services:
     build:
       context: ./worker.worker
       dockerfile: Dockerfile.dev
+    restart: on-failure
     depends_on:
       - rabbitmq
       - redis
