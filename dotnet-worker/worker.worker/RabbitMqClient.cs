@@ -68,7 +68,7 @@ namespace worker.worker
             {
                 // TODO: Get the default value from appsettings.json
                 HostName = Environment.GetEnvironmentVariable("RABBITMQ_HOST") ?? "localhost",
-                Port =  int.Parse(Environment.GetEnvironmentVariable("RABBITMQ_PORT")) ?? "5672",
+                Port =  int.Parse(Environment.GetEnvironmentVariable("RABBITMQ_PORT") ?? "5672"),
                 UserName = Environment.GetEnvironmentVariable("RABBITMQ_USER") ?? "admin",
                 Password = Environment.GetEnvironmentVariable("RABBITMQ_PASSWORD") ?? "admin"
             };
