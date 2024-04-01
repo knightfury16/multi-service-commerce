@@ -1,4 +1,4 @@
-version: "3"
+version: "3.8"
 
 services:
   postgres:
@@ -8,10 +8,6 @@ services:
       - POSTGRES_PASSWORD=admin
     volumes:
       - pg_data:/var/lib/postgresql/data
-    # Do i need to expose the ports or they build comunication by themself? -- they do communicate with each other.
-    #need it to create database manually
-    # ports:
-    #   - 5432:5432
   redis:
     image: redis
     volumes:
@@ -33,14 +29,12 @@ services:
     build:
       context: ./dotnet-worker/worker.worker
       dockerfile: Dockerfile.dev
-    # volumes:
-    # - /app/node_modules
-    # - type: bind
-    # source: ./worker
-    # target: /app
     environment:
       - REDIS_HOST=redis
       - REDIS_PORT=6379
+      - RABBITMQ_HOST=rabbitmq
+      - RABBITMQ_PORT=5672
+      - RABBITMQ_PASSWORD=admin
     depends_on:
       - rabbitmq
       - redis
@@ -49,8 +43,6 @@ services:
       context: ./backend
       dockerfile: Dockerfile.dev
     restart: on-failure
-    # ports:
-    #   - 3000:3000
     environment:
       - REDIS_HOST=redis
       - REDIS_PORT=6379
@@ -63,17 +55,10 @@ services:
     depends_on:
       - rabbitmq
       - redis
-    # volumes:
-    # - /app/node_modules
-    # - type: bind
-    #   source: ./backend
-    #   target: /app
   react-app:
     build:
       context: ./frontend
       dockerfile: Dockerfile.dev
-    # ports:
-    #   - 5000:5173
     volumes:
       - /app/node_modules
       - ./frontend:/app
