@@ -1,6 +1,6 @@
 # Overengineered FibCalculator
 
-![System Diagram](./resource/sd2.png)
+![System Diagram](./resource/sd.png)
 
 ## Overview
 
