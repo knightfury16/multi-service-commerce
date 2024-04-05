@@ -38,3 +38,11 @@ To start the application, follow these steps:
 
 ```bash
 docker-compose up
+```
+
+## Access the application:
+Open your web browser and navigate to 
+```bash
+http://localhost:4000
+``` 
+
