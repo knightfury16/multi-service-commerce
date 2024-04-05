@@ -10,7 +10,7 @@ The application architecture includes the following components:
 
 - **PostgreSQL Database**: Containerized PostgreSQL database to store application data.
 - **Redis**: Containerized Redis for caching purposes.
-- **Nginx**: Containerized Nginx web server acting as a reverse proxy, serving the frontend React app.
+- **Nginx**: Containerized Nginx web server acting as a reverse proxy, serving the frontend React app and routing traffic to backend.
 - **RabbitMQ**: Containerized RabbitMQ message broker for inter-service communication.
 - **Worker Service**: A .NET worker service that calculates Fibonacci numbers asynchronously.
 - **Node.js Backend**: Node.js backend service responsible for interacting with the database and message broker.
