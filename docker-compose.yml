@@ -52,6 +52,9 @@ services:
       - PG_PASSWORD=admin
       - PG_PORT=5432
       - AMQP_HOST=rabbitmq
+      - AMQP_PORT=5672
+      - AMQO_USER=admin
+      - AMQP_PASSWORD=admin
     depends_on:
       - rabbitmq
       - redis
