@@ -1,0 +1,82 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = "postgresql://postgres:admin@localhost:5432/cds"
+}
+
+model Product {
+  id           Int         @id @default(autoincrement())
+  createdAt    DateTime    @default(now())
+  updatedAt    DateTime    @updatedAt
+  name         String      @db.VarChar(100)
+  price        Float?      @default(0)
+  ratings      Float?      @default(0)
+  seller       User        @relation(fields: [userId], references: [id])
+  stock        Int?        @default(0)
+  numOfReviews Int?        @default(0)
+  userId       Int
+  OrderItem    OrderItem[]
+}
+
+
+model User {
+  id                  Int       @id @default(autoincrement())
+  createdAt           DateTime  @default(now())
+  updatedAt           DateTime  @updatedAt
+  name                String    @db.VarChar(30)
+  email               String    @unique
+  password            String
+  products            Product[]
+  role                Role      @default(BUYER)
+  phoneNum            String?
+  dateOfBirth         String?
+  gender              String?
+  address             String?
+  resetPasswordToken  String?
+  resetPasswordExpire DateTime?
+  Order               Order[]
+}
+
+model Order {
+  id              Int         @id @default(autoincrement())
+  createdAt       DateTime    @default(now())
+  updatedAt       DateTime    @updatedAt
+  shippingAddress String
+  user            User        @relation(fields: [userId], references: [id])
+  userId          Int
+  orderItems      OrderItem[]
+  totalPrice      Float       @default(0)
+  paidAt          DateTime?
+  orderStatus     OrderStatus @default(Processing)
+  deliveredAt     DateTime?
+}
+
+model OrderItem {
+  id        Int     @id @default(autoincrement())
+  product   Product @relation(fields: [productId], references: [id])
+  productId Int
+  name      String
+  price     Float
+  image     String
+  quantity  Int
+  Order     Order?  @relation(fields: [orderId], references: [id])
+  orderId   Int?
+}
+
+enum Role {
+  ADMIN
+  BUYER
+}
+
+
+enum OrderStatus {
+  Processing
+  Shipped
+  Delivered
+}
