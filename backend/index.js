@@ -7,6 +7,9 @@ const morgan = require("morgan");
 const cors = require("cors");
 const cookieParser = require('cookie-parser');
 const productRouter = require('./routers/product');
+const userRoute = require('./routers/user');
+const adminRoute = require('./routers/admin');
+const orderRoute = require('./routers/order');
 
 
 const app = express();
@@ -21,7 +24,10 @@ app.get("/", (req, res) => {
   res.send("Hello world");
 });
 
+app.use('/api/user', userRoute);
 app.use('/api/products', productRouter);
+app.use('/api/admin', adminRoute);
+app.use('/api/order', orderRoute);
 
 
 // // Route to retrieve the value from the table
