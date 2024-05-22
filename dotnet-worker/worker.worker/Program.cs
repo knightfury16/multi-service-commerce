@@ -20,7 +20,6 @@ class Program
             {
                 services.AddSingleton<RabbitMqClient>(_ => RabbitMqClient.GetInstance());
                 services.AddSingleton<RedisClient>(_ => RedisClient.GetInstance());
-                services.AddHostedService<WorkerService>(); // Add the WorkerService as a hosted service
                 services.AddHostedService<RateControllerService>();
             });
 }
