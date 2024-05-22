@@ -40,17 +40,35 @@ namespace worker.worker
 
             consumer.Received += (model, ea) =>
             {
-                var body = ea.Body.ToArray();
-                var valueStr = Encoding.UTF8.GetString(body);
+                try
+                {
+                    var body = ea.Body.ToArray();
+                    var valueStr = Encoding.UTF8.GetString(body);
 
-                Console.WriteLine($"Saving value");
+                    Console.WriteLine($"Saving value {valueStr}");
 
-                string[] valueSplit = valueStr.Split(':');
-                string userKey = valueSplit[0];
-                string userCall = valueSplit[1];
+                    string[] valueSplit = valueStr.Split(':');
+                    string userKey = valueSplit[0];
+                    string userCall = valueSplit[1];
+                    int reqNumber = 0;
 
-                Console.WriteLine("Saving value to redis");
-                redisClient.SaveToRedis(userKey, userCall.ToString());
+                    //weird, string null is not checked in string.nullOrEmpty()
+                    if(string.Equals(userCall, "null"))
+                    {
+                        reqNumber = 1;
+                    }
+                    else
+                    {
+                        reqNumber = int.Parse(userCall);
+                        reqNumber++;
+                    }
+
+                    redisClient.SaveToRedis(userKey, reqNumber.ToString());
+                }
+                catch (System.Exception e)
+                {
+                    throw new Exception(e.Message);
+                }
             };
 
             channel.BasicConsume(
