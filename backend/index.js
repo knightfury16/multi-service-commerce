@@ -1,3 +1,4 @@
+require('dotenv').config();
 const express = require("express");
 // const { SetValue, GetAllValues, GetValue } = require("./repository");
 // const { redisClient } = require("./redisClient.js");
