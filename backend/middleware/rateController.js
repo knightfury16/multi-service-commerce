@@ -2,40 +2,33 @@ const jwt = require('jsonwebtoken');
 const prisma = require('../db/prisma');
 const { redisClient } = require('../utils/redisClient');
 const { publishMessage } = require('../utils/rabbitmqPublisher');
+const { MAX_ALLOWED_CALL } = require('../utils/constants');
 
 const rateController = async (req, res, next) => {
     try {
-        /////temp
-        let counter = 1;
         let user = req.user;
 
         if (user == null || user == undefined) {
             user = {
-                "id": 1,
-                "name": "Morganica Sherlock",
-                "email": "msherlock0@fema.gov",
-                "password": "8kKODedKDshk",
-                "phoneNum": "597-693-0254",
-                "dateOfBirth": null,
-                "gender": null,
-                "address": null,
-                "role": "BUYER"
+                "id": 1
             };
             console.log("USER NOT FOUND SETTING MANUALLY");
             // throw new Error('RC: Please authenticate!');
         }
 
-        let userKey = `USER1`;
+        let userKey = `USER-${user.id}`;
 
-        // if (userkey == null || userKey == undefined) {
-        //     throw new Error('userid not found to RC');
-        // }
+        //check if we have any value in redis with this userKey
+        const previousCall = await redisClient.GET(userKey);
 
-        // const previousCall = await redisClient.HGET(userkey);
+        //we have and its value is exceding max allwoed call
+        if(previousCall != null && parseInt(previousCall) > MAX_ALLOWED_CALL){
+            throw new Error("You exceeded your limit. Please try again later");
+        }
 
-        // console.log("PREVIOUS CALL::", previousCall);
+        const publishMsgString = `${userKey}:${previousCall}`
 
-        publishMessage(`${userKey}:${counter++}`, "RATE_CONTROL");
+        await publishMessage(publishMsgString, "RATE_CONTROL");
 
         next();
     } catch (error) {

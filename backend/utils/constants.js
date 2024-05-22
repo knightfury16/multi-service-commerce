@@ -10,5 +10,6 @@ module.exports = {
     'numOfReviews',
     'ratings'
   ],
-  ALLOWED_USER_UPDATE: ['name', 'phoneNum', 'dateOfBirth', 'gender']
+  ALLOWED_USER_UPDATE: ['name', 'phoneNum', 'dateOfBirth', 'gender'],
+  MAX_ALLOWED_CALL: 3
 };
