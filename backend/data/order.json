@@ -1,0 +1,68 @@
+[
+  {
+    "shippingAddress": "16 Emmet Hill",
+    "userId": 4,
+    "totalPrice": 816.2
+  },
+  {
+    "shippingAddress": "329 Bultman Way",
+    "userId": 9,
+    "totalPrice": 637.3,
+    "orderItems": [
+      {
+        "product": 8,
+        "name": "Sobe - Orange Carrot",
+        "price": 733.9,
+        "image": "http://dummyimage.com/139x100.png/ff4444/ffffff",
+        "quantity": 5
+      },
+      {
+        "product": 9,
+        "name": "Coffee - Decaffeinato Coffee",
+        "price": 864.5,
+        "image": "http://dummyimage.com/161x100.png/5fa2dd/ffffff",
+        "quantity": 8
+      }
+    ]
+  },
+  {
+    "shippingAddress": "4 Cherokee Avenue",
+    "userId": 1,
+    "totalPrice": 242.4
+  },
+  {
+    "shippingAddress": "8 Sutteridge Point",
+    "userId": 8,
+    "totalPrice": 301.1
+  },
+  {
+    "shippingAddress": "6 Judy Avenue",
+    "userId": 7,
+    "totalPrice": 8.1
+  },
+  {
+    "shippingAddress": "661 Nova Road",
+    "userId": 10,
+    "totalPrice": 434.9
+  },
+  {
+    "shippingAddress": "072 Linden Pass",
+    "userId": 9,
+    "totalPrice": 240.0
+  },
+  {
+    "shippingAddress": "5761 Harbort Hill",
+    "userId": 9,
+    "totalPrice": 924.9
+  },
+  {
+    "shippingAddress": "6448 Ridge Oak Park",
+    "userId": 9,
+    "totalPrice": 895.0
+  },
+  {
+    "shippingAddress": "82 Stang Plaza",
+    "userId": 7,
+    "totalPrice": 508.6
+  }
+]

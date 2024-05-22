@@ -1,4 +1,4 @@
-const product = require('../../data/product.json');
+const product = require('../data/product.json');
 const { PrismaClient } = require('@prisma/client');
 
 const prisma = new PrismaClient();

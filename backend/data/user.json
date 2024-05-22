@@ -1,0 +1,102 @@
+[
+  {
+    "name": "Morganica Sherlock",
+    "email": "msherlock0@fema.gov",
+    "password": "8kKODedKDshk",
+    "phoneNum": "597-693-0254",
+    "dateOfBirth": null,
+    "gender": null,
+    "address": null,
+    "role": "BUYER"
+  },
+  {
+    "name": "Mata O'Fihillie",
+    "email": "mofihillie1@hp.com",
+    "password": "wLKtKMr",
+    "phoneNum": null,
+    "dateOfBirth": "10/22/2000",
+    "gender": "Male",
+    "address": "0525 Saint Paul Trail",
+    "role": "BUYER"
+  },
+  {
+    "name": "Cammy Linning",
+    "email": "clinning2@xing.com",
+    "password": "ZqCcBdaZmu",
+    "phoneNum": null,
+    "dateOfBirth": "8/13/2007",
+    "gender": "Male",
+    "address": "7162 Lake View Plaza",
+    "role": "BUYER"
+  },
+  {
+    "name": "Engelbert Balsdon",
+    "email": "ebalsdon3@deliciousdays.com",
+    "password": "Tprx6L",
+    "phoneNum": null,
+    "dateOfBirth": "7/9/2002",
+    "gender": "Male",
+    "address": "36 Derek Road",
+    "role": "BUYER"
+  },
+  {
+    "name": "Leena Weekes",
+    "email": "lweekes4@google.de",
+    "password": "kHBeCDWubq",
+    "phoneNum": null,
+    "dateOfBirth": null,
+    "gender": null,
+    "address": null,
+    "role": "BUYER"
+  },
+  {
+    "name": "Nolan Ruscoe",
+    "email": "nruscoe5@marketwatch.com",
+    "password": "8slS0Pi24",
+    "phoneNum": "384-491-1472",
+    "dateOfBirth": "7/13/2001",
+    "gender": "Male",
+    "address": "12126 Clemons Way",
+    "role": "BUYER"
+  },
+  {
+    "name": "Lari Bellerby",
+    "email": "lbellerby6@fda.gov",
+    "password": "HPSyXY",
+    "phoneNum": "254-601-0938",
+    "dateOfBirth": null,
+    "gender": null,
+    "address": null,
+    "role": "BUYER"
+  },
+  {
+    "name": "Dacie Twelve",
+    "email": "dtwelve7@google.it",
+    "password": "j0hrxPcykx",
+    "phoneNum": null,
+    "dateOfBirth": null,
+    "gender": null,
+    "address": null,
+    "role": "BUYER"
+  },
+  {
+    "name": "Phylys Gorey",
+    "email": "pgorey8@tumblr.com",
+    "password": "8G9kbr7hLLf",
+    "phoneNum": "280-818-2277",
+    "dateOfBirth": "2/15/2004",
+    "gender": "Female",
+    "address": "28214 East Circle",
+    "role": "BUYER"
+  },
+  {
+    "name": "Tammy Tumilty",
+    "email": "ttumilty9@theglobeandmail.com",
+    "password": "E9pXIlbsRuVz",
+    "phoneNum": "479-133-7162",
+    "dateOfBirth": "11/29/2008",
+    "gender": "Female",
+    "address": "26021 Spenser Terrace",
+    "role": "BUYER"
+  }
+]
