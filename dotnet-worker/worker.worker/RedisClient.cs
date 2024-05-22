@@ -16,7 +16,7 @@ namespace worker.worker
 
         private RedisClient()
         {
-            _lazyConnection = new Lazy<ConnectionMultiplexer>(() => ConnectionMultiplexer.Connect(GetRedisConnectionString()));
+            _lazyConnection = new Lazy<ConnectionMultiplexer>(() => ConnectionMultiplexer.Connect(CreateConfigurationOption()));
         }
 
         public static RedisClient GetInstance()
@@ -38,7 +38,7 @@ namespace worker.worker
         {
             Console.WriteLine($"Saving to redis of key {key} and {value}");
             var db = _lazyConnection.Value.GetDatabase();
-            db.HashSet("values", key , value);
+            db.StringSet( key, value);
         }
 
         public string GetFromRedis(string key)
@@ -48,12 +48,24 @@ namespace worker.worker
             return db.StringGet(key);
         }
 
+        private ConfigurationOptions CreateConfigurationOption()
+        {
+            var configOptions = new ConfigurationOptions
+            {
+                EndPoints = { GetRedisConnectionString() },
+                ConnectRetry = 5, // The number of times to retry connecting
+                ReconnectRetryPolicy = new ExponentialRetry(5000, 20000), // Exponential backoff for retries
+                ConnectTimeout = 1000 // Timeout for connecting
+            };
+
+            return configOptions;
+        }
         private string GetRedisConnectionString()
         {
             string redisConfig;
 
             // Get Redis configuration string from environment variable
-            string? redisHost = Environment.GetEnvironmentVariable("REDIS_HOST") ?? "redis";
+            string? redisHost = Environment.GetEnvironmentVariable("REDIS_HOST") ?? "localhost";
             string? redisPort = Environment.GetEnvironmentVariable("REDIS_PORT") ?? "6379";
             redisConfig = redisHost + ":" + redisPort;
 
