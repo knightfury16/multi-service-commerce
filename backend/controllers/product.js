@@ -1,5 +1,5 @@
 const prisma = require('../db/prisma');
-const { Category, Prisma } = require('@prisma/client');
+const { Category } = require('@prisma/client');
 const {
     productValidationSchema,
     updateProductValidationSchema,
@@ -12,9 +12,7 @@ const getAllProducts = async (req, res) => {
     const priceRange = req.query.price ? req.query.price.split('-') : undefined;
     const resPerPage = 5;
     const currentPage = req.query.page || 1;
-    prisma.product.findFirst({where:{
-        ca
-    }})
+    prisma.product.findFirst()
 
     const products = await prisma.product.findMany({
         where: {

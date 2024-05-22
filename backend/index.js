@@ -5,17 +5,24 @@ const { SetValue, GetAllValues, GetValue } = require("./repository");
 // const { publishMessage } = require("./rabbitmqPublisher.js");
 const morgan = require("morgan");
 const cors = require("cors");
+const cookieParser = require('cookie-parser');
+const productRouter = require('./routers/product');
+
 
 const app = express();
 
 // Parse JSON bodies
 app.use(express.json());
 app.use(cors());
+app.use(cookieParser());
 app.use(morgan("dev"));
 
 app.get("/", (req, res) => {
   res.send("Hello world");
 });
+
+app.use('/api/products', productRouter);
+
 
 // // Route to retrieve the value from the table
 // app.get("/getValues", async (req, res) => {
