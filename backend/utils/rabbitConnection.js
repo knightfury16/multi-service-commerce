@@ -1,5 +1,5 @@
 const amqplib = require("amqplib");
-const { amqpHost, amqpPort, amqpUser, amqpPassword } = require("./keys.js");
+const { amqpHost, amqpPort, amqpUser, amqpPassword } = require("../keys.js");
 
 const amqpUri = `amqp://${amqpUser}:${amqpPassword}@${amqpHost}:${amqpPort}`;
 

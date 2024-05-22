@@ -9,6 +9,7 @@ const {
   updateProduct,
   deleteProduct
 } = require('../controllers/product');
+const { rateController } = require('../middleware/rateController');
 
 //** get all products from the database
 /* 
@@ -19,7 +20,7 @@ const {
   -Get(/api/products?price=1-100) -> get all products where price is gte 1 and lte 100
   -Get(/api/products?page=2) -> get all products of page 2
 */
-router.get('/', getAllProducts);
+router.get('/', rateController , getAllProducts);
 
 //** get single product by id
 router.get('/:id', getSingleProduct);
