@@ -62,6 +62,7 @@ const logout = async (req, res) => {
 const getUserProfile = async (req, res) => {
   try {
     const user = await prisma.user.findFirst({ where: { id: req.user.id } });
+    // const user = await prisma.user.findMany();
 
     // delete password field from user body
     delete user.password;
