@@ -1,4 +1,4 @@
-const bcrypt = require('bcrypt');
+const bcrypt = require('bcryptjs');
 const Joi = require('joi');
 const { ALLOWED_USER_UPDATE } = require('../utils/constants');
 const generateToken = require('../utils/generateToken');

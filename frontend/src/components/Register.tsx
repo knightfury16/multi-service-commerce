@@ -1,6 +1,6 @@
 // Register.js
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import { BaseUrl } from '../Constants';
 import axios from 'axios';
 import Cookies from 'js-cookie';
@@ -9,7 +9,7 @@ const Register = () => {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const navigate = useNavigate();
+  const history = useHistory();
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -26,7 +26,7 @@ const Register = () => {
       Cookies.set('token', token, { expires: 7 }); // Expires in 7 days
 
       // Redirect to another page after successful login
-      navigate('/products');
+      history.push('/products');
     } catch (error) {
       // Handle login error
       console.error('Registration failed:', error);

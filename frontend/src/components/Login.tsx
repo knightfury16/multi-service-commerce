@@ -1,14 +1,14 @@
 // Login.js
 import axios from 'axios';
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import Cookies from 'js-cookie';
 import { BaseUrl } from '../Constants';
 
 const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const navigate = useNavigate();
+  const history = useHistory();
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -25,7 +25,7 @@ const Login = () => {
       Cookies.set('token', token, { expires: 7 }); // Expires in 7 days
 
       // Redirect to another page after successful login
-      navigate('/products');
+      history.push('/products');
     } catch (error) {
       // Handle login error
       console.error('Login failed:', error);

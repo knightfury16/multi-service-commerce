@@ -1,6 +1,6 @@
 // App.js
 import React from 'react';
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import Home from './components/Home';
 import Login from './components/Login';
 import Register from './components/Register';
@@ -14,14 +14,14 @@ import Order from './components/Order';
 const App = () => {
   return (
     <Router>
-      <Routes>
-        <Route path="/"  element={<Home/>} />
-        <Route path="/login"  element={<Login/>} />
-        <Route path="/register"  element={<Register/>} />
-        <Route path="/products" element={<Products/>} />
-        <Route path="/products/:id" element={<ProductDetail/>} />
-        <Route path="/order" element={<Order/>} /> 
-      </Routes>
+      <Switch>
+        <Route path="/" exact  component={Home} />
+        <Route path="/login"  component={Login} />
+        <Route path="/register"  component={Register} />
+        <Route path="/products" component={Products} />
+        <Route path="/products/:id" component={ProductDetail} />
+        <Route path="/order" component={Order} /> 
+      </Switch>
     </Router>
   );
 };
