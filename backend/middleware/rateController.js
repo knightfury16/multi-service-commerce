@@ -24,11 +24,12 @@ const rateController = async (req, res, next) => {
 
         const publishMsgString = `${userKey}:${previousCall}`
 
+        //rate controller logic can be implemented accordingly, on worker service
         await publishMessage(publishMsgString, "RATE_CONTROL");
 
         next();
     } catch (error) {
-        res.status(401).send({ Error: `${error.message}` });
+        res.status(429).send({ Error: `${error.message}` });
     }
 };
 
