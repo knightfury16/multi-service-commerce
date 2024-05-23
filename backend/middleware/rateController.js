@@ -9,11 +9,7 @@ const rateController = async (req, res, next) => {
         let user = req.user;
 
         if (user == null || user == undefined) {
-            user = {
-                "id": 1
-            };
-            console.log("USER NOT FOUND SETTING MANUALLY");
-            // throw new Error('RC: Please authenticate!');
+            throw new Error('RC: Please authenticate!');
         }
 
         let userKey = `USER-${user.id}`;
