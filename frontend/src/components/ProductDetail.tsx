@@ -1,39 +1,57 @@
 // Product.tsx
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import axios from 'axios';
+import axios, { AxiosError } from 'axios';
 import { BaseUrl } from '../Constants';
-import { Product } from './Products';
+import axiosInstance from '../api';
 
-interface DataShape {
-    count: string;
-    product: Product;
-}
+interface ProductDetail {
+    createdAt: string;
+    id: number;
+    name: string;
+    numOfReviews: number;
+    price: number;
+    ratings: number;
+    stock: number;
+    updatedAt: string;
+    userId: number;
+  }
+
 
 const ProductDetail: React.FC = () => {
   const { id } = useParams<{ id: string }>();
-  const [product, setProduct] = useState<Product | null>(null);
+  const [product, setProduct] = useState<ProductDetail | null>(null);
+  const [myError, setMyError] = useState<string | null>(null);
 
   useEffect(() => {
-    axios.get<DataShape>(`${BaseUrl}/api/products/${id}`)
+    axiosInstance.get<ProductDetail>(`${BaseUrl}/api/products/${id}`)
       .then(response => {
-        setProduct(response.data.product);
+        console.log("PRODUCT DETAIL:", response);
+        setProduct(response.data);
       })
-      .catch(error => {
+      .catch((error: AxiosError) => {
+        if (error.response?.status === 429) {
+          setMyError("You have exceeded your request limit. Please try again later.");
+        } else {
+          setMyError("An error occurred while fetching product details.");
+        }
         console.error('Error fetching product details:', error);
       });
   }, [id]);
-
   return (
     <div>
-      {product ? (
-        <div>
-          <h2>{product.name}</h2>
-          <p>Price: {product.price}</p>
-          {/* Add order button */}
-        </div>
+      {myError ? (
+        <div style={{ color: 'red' }}>{myError}</div>
       ) : (
-        <p>Loading...</p>
+        product && (
+          <div>
+            <h1>{product.name}</h1>
+            <p>Price: ${product.price}</p>
+            <p>Stock: {product.stock}</p>
+            <p>Ratings: {product.ratings}</p>
+            <p>Number of Reviews: {product.numOfReviews}</p>
+          </div>
+        )
       )}
     </div>
   );

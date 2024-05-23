@@ -2,6 +2,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import {BaseUrl} from '../Constants'
+import axiosInstance from '../api';
 
 export interface Product {
   id: number;
@@ -22,7 +23,7 @@ const Products: React.FC = () => {
   const [products, setProducts] = useState<Product[]>([]);
 
   useEffect(() => {
-    axios.get<DataShape>(`${BaseUrl}/api/products`)
+    axiosInstance.get<DataShape>(`${BaseUrl}/api/products`)
       .then(response => {
         console.log("PRODUCTS:", response.data.products);
         setProducts(response.data.products);

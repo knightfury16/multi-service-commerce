@@ -1,19 +1,35 @@
 // Login.js
+import axios from 'axios';
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import Cookies from 'js-cookie';
+import { BaseUrl } from '../Constants';
 
 const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const navigate = useNavigate();
 
-  const handleSubmit = (e: any) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    // Add logic to submit login data to backend and handle response
-    console.log('Email:', email);
-    console.log('Password:', password);
-    // Redirect to another page after successful login
-    navigate('/products');
+    try {
+      // Perform API call to submit login data
+      const response = await axios.post(`${BaseUrl}/api/user/login`, { email, password });
+
+      console.log("LOGIN RESPONSE:", response);
+
+      // Assuming the token is returned in the response data
+      const token = response.data.token;
+
+      // Set the token in a cookie for managing the user session
+      Cookies.set('token', token, { expires: 7 }); // Expires in 7 days
+
+      // Redirect to another page after successful login
+      navigate('/products');
+    } catch (error) {
+      // Handle login error
+      console.error('Login failed:', error);
+    }
   };
 
   return (

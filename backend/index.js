@@ -14,10 +14,14 @@ const orderRoute = require('./routers/order');
 
 
 const app = express();
-
+// Configure CORS
+const corsOptions = {
+  origin: 'http://localhost:5173', // Specify the frontend URL
+  credentials: true, // Allow credentials (cookies, authorization headers, etc.)
+};
 // Parse JSON bodies
 app.use(express.json());
-app.use(cors());
+app.use(cors(corsOptions));
 app.use(cookieParser());
 app.use(morgan("dev"));
 
