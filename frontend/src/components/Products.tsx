@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import {BaseUrl} from '../Constants'
 import axiosInstance from '../api';
+import { Link } from 'react-router-dom';
 
 export interface Product {
   id: number;
@@ -39,7 +40,9 @@ const Products: React.FC = () => {
       <ul>
         {products.map(product => (
           <li key={product.id}>
-            <p>{product.name}</p>
+             <Link to={`/products/${product.id}`}>
+                <p>{product.name}</p>
+              </Link>
             <p>{product.price}</p>
             {/* Add link to product detail */}
           </li>
