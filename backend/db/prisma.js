@@ -1,7 +1,13 @@
 const { PrismaClient } = require('@prisma/client');
+const { connectionUrl } = require('./connectionUrl');
 
 const prisma = new PrismaClient({
-  log: ['query']
+  log: ['query'],
+  datasources: [
+    {
+      url: connectionUrl,
+    }
+  ]
 });
 
-module.exports = prisma
+module.exports = prisma;
