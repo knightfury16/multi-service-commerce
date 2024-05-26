@@ -1,0 +1,17 @@
+FROM node:alpine
+
+RUN echo $DATABASE_URL
+
+WORKDIR /app
+
+COPY ./package.json ./
+
+RUN npm install
+
+COPY ./ ./
+
+RUN chmod +x ./prisma/wait-for-postgres.sh
+
+RUN npx prisma generate
+
+CMD sh ./prisma/wait-for-postgres.sh ${PG_HOST} ${PG_USER} -- npx prisma migrate deploy && node ./utils/dataSeeder.js
