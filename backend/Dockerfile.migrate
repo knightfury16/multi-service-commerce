@@ -1,4 +1,4 @@
-FROM node:alpine
+FROM node
 
 RUN echo $DATABASE_URL
 
@@ -13,5 +13,12 @@ COPY ./ ./
 RUN chmod +x ./prisma/wait-for-postgres.sh
 
 RUN npx prisma generate
+RUN apt update
+RUN apt --assume-yes install postgresql-client
+
+# Git will replace the LF line-endings with CRLF, causing issues while executing the wait-for-postgres shell script
+# Install dos2unix and replace CRLF (\r\n) newlines with LF (\n)
+RUN apt --assume-yes install dos2unix
+RUN dos2unix ./prisma/wait-for-postgres.sh
 
 CMD sh ./prisma/wait-for-postgres.sh ${PG_HOST} ${PG_USER} -- npx prisma migrate deploy && node ./utils/dataSeeder.js
