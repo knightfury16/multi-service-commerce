@@ -8,8 +8,6 @@ services:
       - POSTGRES_PASSWORD=admin
     volumes:
       - pg_data:/var/lib/postgresql/data
-    ports:
-      - "5432:5432"
   redis:
     image: redis
     volumes:
@@ -43,7 +41,7 @@ services:
       - REDIS_PORT=6379
       - PG_USER=postgres
       - PG_HOST=postgres
-      - PG_DATABASE=postgres
+      - PG_DATABASE=cds_test_office
       - PG_PASSWORD=admin
       - PG_PORT=5432
       - AMQP_HOST=rabbitmq
@@ -59,6 +57,8 @@ services:
     build:
       context: ./frontend
       dockerfile: Dockerfile.dev
+    environment:
+      - FRONTEND_ORIGIN=http://react-app:4000 # Cors issue, what does this do?
     volumes:
       - /app/node_modules
       - ./frontend:/app
