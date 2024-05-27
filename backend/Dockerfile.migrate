@@ -21,4 +21,4 @@ RUN apt --assume-yes install postgresql-client
 RUN apt --assume-yes install dos2unix
 RUN dos2unix ./prisma/wait-for-postgres.sh
 
-CMD sh ./prisma/wait-for-postgres.sh ${PG_HOST} ${PG_USER} -- npx prisma migrate deploy && node ./utils/dataSeeder.js
+CMD sh ./prisma/wait-for-postgres.sh ${PG_HOST} ${PG_USER} npx prisma migrate deploy && node ./utils/dataSeeder.js
