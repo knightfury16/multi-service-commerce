@@ -3,11 +3,11 @@ const { connectionUrl } = require('./connectionUrl');
 
 const prisma = new PrismaClient({
   log: ['query'],
-  datasources: [
-    {
+  datasources: {
+    db: {
       url: connectionUrl,
     }
-  ]
+  }
 });
 
 module.exports = prisma;
