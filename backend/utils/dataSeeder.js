@@ -1,8 +1,6 @@
 const user = require('../data/user.json');
 const product = require('../data/product.json');
-const { PrismaClient } = require('@prisma/client');
-
-const prisma = new PrismaClient();
+const prisma = require('../db/prisma'); // why did i use separate client? ME!!
 
 async function main() {
   // ... you will write your Prisma Client queries here
