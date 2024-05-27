@@ -1,3 +1,4 @@
+# To ensure that both the compose file use the same volume we need them to be in the same drectory
 version: '3.8'
 services:
   postgres-migrate:
@@ -5,18 +6,19 @@ services:
     environment:
       - POSTGRES_PASSWORD=admin
     volumes:
-      - pg_data:/var/lib/postgresql/data
+      - com_data:/var/lib/postgresql/data
   prisma-migrate:
     build:
+      context: ./backend
       dockerfile: Dockerfile.migrate
     environment:
       - PG_USER=postgres
       - PG_HOST=postgres-migrate
-      - PG_DATABASE=cds_test2
+      - PG_DATABASE=cds_rain
       - PG_PASSWORD=admin
       - PG_PORT=5432
     depends_on:
       - postgres-migrate
 
 volumes:
-  pg_data:
+  com_data:
