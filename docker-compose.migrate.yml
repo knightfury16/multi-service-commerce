@@ -14,7 +14,7 @@ services:
     environment:
       - PG_USER=postgres
       - PG_HOST=postgres-migrate
-      - PG_DATABASE=cds_rain
+      - PG_DATABASE=cds_test_office
       - PG_PASSWORD=admin
       - PG_PORT=5432
     depends_on:
