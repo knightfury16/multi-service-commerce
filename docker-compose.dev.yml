@@ -1,0 +1,46 @@
+# Run this compose to develop backend and frontend locally
+# This compose run only postgres,rabbitmq,worker, and redis
+# Run backend and frontend respectively after runnig this compose
+# If running for the first time run migration compose first
+version: "3.8"
+
+services:
+  postgres:
+    image: postgres
+    container_name: postgres
+    environment:
+      - POSTGRES_PASSWORD=admin
+    volumes:
+      - pg_data:/var/lib/postgresql/data
+    ports:
+      - 5432:5432
+  redis:
+    image: redis
+    volumes:
+      - redis_data:/data
+    ports:
+      - 6379:6379
+  rabbitmq:
+    image: rabbitmq
+    environment:
+      RABBITMQ_DEFAULT_USER: admin
+      RABBITMQ_DEFAULT_PASS: admin
+    ports:
+      - 5672:5672
+  worker:
+    restart: on-failure
+    build:
+      context: ./dotnet-worker/worker.worker
+      dockerfile: Dockerfile.dev
+    environment:
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+      - RABBITMQ_HOST=rabbitmq
+      - RABBITMQ_PORT=5672
+      - RABBITMQ_PASSWORD=admin
+    depends_on:
+      - rabbitmq
+      - redis
+volumes:
+  pg_data:
+  redis_data:
