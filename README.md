@@ -1,6 +1,6 @@
 # Multi-Service Commerce
 
-![System Diagram](./resource/sd3.png)
+![System Diagram](./resource/sd4.png)
 
 ## Overview
 
