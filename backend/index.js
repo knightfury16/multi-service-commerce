@@ -16,7 +16,7 @@ const orderRoute = require('./routers/order');
 const app = express();
 // Configure CORS
 const corsOptions = {
-  origin: process.env.FRONTEND_ORIGIN || 'http://localhost:4000', // Specify the frontend URL
+  origin: 'http://localhost:4000', // Specify the frontend URL
   credentials: true, // Allow credentials (cookies, authorization headers, etc.)
 };
 // Parse JSON bodies
