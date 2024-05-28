@@ -24,7 +24,7 @@ const Products: React.FC = () => {
   const [products, setProducts] = useState<Product[]>([]);
 
   useEffect(() => {
-    axiosInstance.get<DataShape>(`${BaseUrl}/api/products`)
+    axiosInstance.get<DataShape>(`/products`)
       .then(response => {
         console.log("PRODUCTS:", response.data.products);
         setProducts(response.data.products);

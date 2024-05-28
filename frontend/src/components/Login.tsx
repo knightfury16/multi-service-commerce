@@ -14,7 +14,7 @@ const Login = () => {
     e.preventDefault();
     try {
       // Perform API call to submit login data
-      const response = await axios.post(`${BaseUrl}/api/user/login`, { email, password });
+      const response = await axios.post(`${BaseUrl}/user/login`, { email, password });
 
       console.log("LOGIN RESPONSE:", response);
 

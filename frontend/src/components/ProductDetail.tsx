@@ -24,7 +24,7 @@ const ProductDetail: React.FC = () => {
   const [myError, setMyError] = useState<string | null>(null);
 
   useEffect(() => {
-    axiosInstance.get<ProductDetail>(`${BaseUrl}/api/products/${id}`)
+    axiosInstance.get<ProductDetail>(`/products/${id}`)
       .then(response => {
         console.log("PRODUCT DETAIL:", response);
         setProduct(response.data);
