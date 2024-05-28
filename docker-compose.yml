@@ -51,20 +51,23 @@ services:
     depends_on:
       - rabbitmq
       - redis
-    ports:
-      - "3000:3000"
   react-app:
     build:
       context: ./frontend
       dockerfile: Dockerfile.dev
-    environment:
-      - FRONTEND_ORIGIN=http://react-app:4000 # Cors issue, what does this do?
+    # dont need this after adding nginx service coz there is no cors issue, they are part of the same network
+    # environment:
+    #   - FRONTEND_ORIGIN=http://react-app:4000 # Cors issue, what does this do?
     volumes:
       - /app/node_modules
       - ./frontend:/app
+  nginx:
+    build:
+      context: ./nginx
+      dockerfile: Dockerfile.dev
+    restart: always
     ports:
-      - "4000:5173"
-
+      - 4000:80  
 volumes:
   pg_data:
   redis_data:
