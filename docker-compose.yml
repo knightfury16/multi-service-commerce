@@ -55,6 +55,8 @@ services:
     build:
       context: ./frontend
       dockerfile: Dockerfile.dev
+    environment:
+      - VITE_HOST=react-app
     # dont need this after adding nginx service coz there is no cors issue, they are part of the same network
     # environment:
     #   - FRONTEND_ORIGIN=http://react-app:4000 # Cors issue, what does this do?
