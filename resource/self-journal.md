@@ -2,6 +2,7 @@
 
 ## Challenges Faced
 ### bcrypt
+### migration trigger generators
 ### Prisma
 Prisma is weird. In order to use it I have to generate the type first by running 
 

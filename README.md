@@ -62,17 +62,24 @@ docker-compose -f .\docker-compose.dev.yml up --build
 This will start the necesarry services, specifically postgres, rabbitMq, redis
 and the worker service.
 
-Then run frontend and backend locally
+Then run frontend locally
 
-```bash
-cd ./backend
-npm run dev
-```
+1. `cd ./backend`
 
-```bash
-cd ./frontend
-npm run dev
-```
+2. `npm install`
+
+3. `npm run dev`
+
+
+To start the Backend
+
+1. `cd ./backend`
+
+2. `npm install`
+
+3. `npx prisma generate`
+
+4. `npm run dev`
 
 Then to access the site go to
 ```bash
