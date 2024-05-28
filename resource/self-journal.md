@@ -1,9 +1,7 @@
-#
+# Self Journal
 
 ## Challenges Faced
-### bcrypt
-### migration trigger generators
-### Prisma
+### 1. Prisma
 Prisma is weird. In order to use it I have to generate the type first by running 
 
 ```bash
@@ -11,9 +9,11 @@ npx prisma generate
 ```
 which lives in node_modules. So to use the app I have to generate the types first. This was troublesome in docker.
 
-Coz in order to generate the types i need a connection url. So had to construct connection url based on environment it was running in. Example in docker or localhost.
+Coz in order to generate the types i need a connection url. So had to construct connection url based on environment it was running in. Example, in docker or localhost.
+
 
 ```js
+// Code to configure connection string based on environment
 require('dotenv').config();
 
 const username = process.env.PG_USER || process.env.DEAFULT_DB_USER;
@@ -30,7 +30,7 @@ exports.connectionUrl = connectionUrl;
 
 ```
 
-Then also depending on environment the genereated types were different so had to configure that also using `binaryTargets`
+Then also depending on environment the genereated types were different so had to configure that also using `binaryTargets` option.
 
 ```
 generator client {
@@ -41,7 +41,7 @@ generator client {
 ```
 
 
-But generating only type was not enough. Coz everytime I was starting the app for the very first time, I have to run the migration also. And running migrations requires a DATABASE_URL.
+But generating only type was not enough. Coz everytime I was starting the app for the very first time, I have to run the migration also. And running migrations requires a `DATABASE_URL`.
 
 ```js
 datasource db {
@@ -50,7 +50,7 @@ datasource db {
 }
 ```
 
-And this url had to be specifically provided in the .env file. Tried to inject it through docker environment variable. Did  not work.
+And this url had to be specifically provided in the `.env` file. Tried to inject it through docker environment variable. Did  not work.
 
 Tried to construct it dynamically, did not work.
 
@@ -64,7 +64,10 @@ require('dotenv').config();
 process.env.DATABASE_URL = connectionUrl;
 ```
 
-During migration it specifically read the string from `.env` file
+
+Because during migration it specifically read the string from `.env` file
+
+Then had to opt for hard coded string in `.env` file
 
 ```bash
 DATABASE_URL="postgresql://postgres:admin@postgres-migrate:5432/cds_test_office" 
@@ -72,9 +75,12 @@ DATABASE_URL="postgresql://postgres:admin@postgres-migrate:5432/cds_test_office"
 
 So for now, have to do it manually.
 
-### Dockerizing Migration
 
-#### Decision on how to do the migration
+Also doing migration trigger *prisma generator* automatically.
+
+### 2.Dockerizing Migration
+
+#### 2a. Decision on how to do the migration
 So how to run the migration?
 
 Tried to do it during the build of the application. That created a lot of dependency issues and also it was inefficient.
@@ -83,7 +89,7 @@ So then decided on writing separate docker file for migration.
 So at the start of application I run the migration once,
 which apply the migration and additionally seed the database with some random data.And dont have to think about it again.
 
-#### How to run the migration
+#### 2b. How to run the migration
 
 Then again the problem was in order to execute the command 
 
@@ -130,11 +136,23 @@ RUN dos2unix ./prisma/wait-for-postgres.sh
 CMD sh ./prisma/wait-for-postgres.sh ${PG_HOST} ${PG_USER} npx prisma migrate deploy && node ./utils/dataSeeder.js
 ```
 
-#### Migration Database volume issue
+#### 2c. Migration Database volume issue
 
 Initially this migration compose file was in `./backend` folder. So when I ran the migration it created a volume `backend-pg-volume` and ran the migration there.
 
 So when i started application which was in the root, it failed to access the database coz it was using its own litte volume `pg-volume`
 
-So to solve this issue I moved back migration compsoe file to the root of project. Now both the application and migration used the same volume and data persisted.
+So to solve this issue I moved back migration compsoe file to the root of project. Now both the application and migration use the same volume and data persisted.
 
+
+### 3. bcrypt packge issue
+
+So at the start of the project I used `bcrypt` package. Which provide binding in native `C` implementation and needed additonal native module to work.
+
+This was no problem locally coz I have GCC compiler installed. 
+
+But when dockerized I was getting error that was hard to debug and spent a lot of time figuring it out.
+
+Then opted to `bcryptjs` and it worked perfectly.
+
+Lesson here, be carefull which package you use. Check the dependencies of the package.

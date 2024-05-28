@@ -1,6 +1,6 @@
 # Multi-Service Commerce
 
-<!-- ![System Diagram](./resource/sd.png) -->
+![System Diagram](./resource/sd3.png)
 
 ## Overview
 
@@ -59,12 +59,12 @@ docker-compose -f .\docker-compose.migrate.yml up --build
 docker-compose -f .\docker-compose.dev.yml up --build
 ```
 
-This will start the necesarry services, specifically postgres, rabbitMq, redis
-and the worker service.
+This will start the necesarry services, specifically `postgres`, `rabbitMq`, `redis`
+and the `worker-service`.
 
 Then run frontend locally
 
-1. `cd ./backend`
+1. `cd ./frontend`
 
 2. `npm install`
 
@@ -88,13 +88,13 @@ http://localhost:5173
 
 ### To change database name
 
-Change the env variable of node service in the respective compose file
+Change the env variable of node-app service in the respective compose file
 
 ```bash
 - PG_DATABASE=new-name
 ```
 
-and for prisma issue also have to manually also change the name in 
+and for prisma issue also have to manually change the name in 
 `DATABASE_URL` string in `./backend/.env`
 
 
